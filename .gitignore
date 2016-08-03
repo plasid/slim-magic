@@ -1,0 +1,15 @@
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+stdout.log
+log.txt
+/node_modules
+npm-debug.log
+.DS_Store
+.idea
+/vendor
+/nbproject
