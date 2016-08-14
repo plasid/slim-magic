@@ -1,23 +1,25 @@
 <?php
 
+/**
+ * Slim Magic Mapper
+ *
+ * @link      https://github.com/atlantic8-web/slim-magic
+ * @copyright Copyright (c) 2011-2016 Christof Coetzee
+ * @license   https://github.com/atlantic8-web/slim-magic/blob/master/LICENSE (MIT License)
+ */
+
 namespace SlimMagic;
 
 class Mapper
 {
 
-    protected $slimApp;
-    protected $config;
+    protected $container;
 
-    public function __construct($slimApp, $config)
+    public function __construct(\SlimMagic\ServiceContainer $container)
     {
-        $this->slimApp = $slimApp;
-        $this->config = $config;
+
+        $this->container = $container;
         $this->assemble();
-    }
-
-    public function getSlim()
-    {
-        return $this->slimApp;
     }
 
     private function assemble()
@@ -25,43 +27,25 @@ class Mapper
 
         try {
 
-            foreach ($this->config['routes'] as $route => $spec) {
-                
-                $sn = $this->routeSpecNormalize($spec);
-                $ins = $this->slimApp->map($sn['methods'], $route, $sn['classmap']);
-                !empty($sn['name']) ? $ins->setName($sn['name']) : null;
-                !empty($sn['arguments']) ? $ins->setArguments($sn['arguments']) : null;
-                foreach ($sn['middleware'] as $m) {
-                    $ins->add(new $m);
+            $slimContainer = $this->container->getSlim()->getContainer();
+
+            foreach ($this->container->getConfig()['all']['service'] as $c) {
+                call_user_func(['\service\Dependency\\' . $c, 'set'], $slimContainer);
+            }
+
+            foreach ($this->container->getConfig()['routes'] as $route => $spec) {
+
+                $ins = $this->container->getSlim()->map($spec['methods'], (string) $route, (string) $spec['classmap']);
+                !empty($spec['name']) ? $ins->setName($spec['name']) : null;
+                !empty($spec['arguments']) ? $ins->setArguments($spec['arguments']) : null;
+
+                foreach ($spec['middleware'] as $m) {
+                    $ins->add(call_user_func(['\service\Middleware\\' . $m, 'get'], $slimContainer));
                 }
             }
-            
-            $this->slimApp->run();
-            
         } catch (\Exception $e) {
-           throw $e;
+            throw $e;
         }
-    }
-
-    private function dashToCamel($str, $isMethod = false)
-    {
-        $ret = implode('', array_map('ucwords', explode('-', $str)));
-        return $isMethod ? lcfirst($ret) : $ret; //PSR2
-    }
-
-    private function routeSpecNormalize($route)
-    {
-        $default = [
-            'methods' => ['GET'],
-            'classmap' => 'routeNotDefined',
-            'middleware' => [],
-            'arguments' => [],
-            'name' => ''
-        ]; 
-        
-        $route = empty($route['methods']) ? ['GET'] : array_map('strtoupper', (array)$route['methods']);
-        
-        return array_merge($default, $route);
     }
 
 }
