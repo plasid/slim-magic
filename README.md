@@ -13,13 +13,7 @@ This will install SlimMagic and all required dependencies. SlimMagic requires PH
 
 ## Usage
 
-Create a Slim config.php and add the following SlimMagic configuration - [See code example](https://github.com/atlantic8-web/slim-magic-example-simple):
-
-```php
-<?php
-
-return 
-```
+Create a Slim config.php and add SlimMagic route setup and configuration - [See code example](https://github.com/atlantic8-web/slim-magic-example-simple):
 
 Create an index.php file with the following contents:
 
