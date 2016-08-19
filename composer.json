@@ -2,7 +2,7 @@
     "name": "atlantic8-web/slim-magic",
     "description": "An auto router, auto discovery class mapper/loader for Slim Framework 3. Keeping your Slim bootstrapping clean no matter how many routes, dependencies and middleware you have.",
     "require": {
-        "php": ">=5.5.0"
+        "php": ">=5.4.0"
     },
     "keywords": [
         "slim",
