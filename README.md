@@ -7,6 +7,7 @@ It's recommended that you use [Composer](https://getcomposer.org/) to install Sl
 
 ```bash
 $ composer require atlantic8-web/slim-magic "^1.0"
+// or add to your existing composer.json file
 ```
 
 This will install SlimMagic and all required dependencies. SlimMagic requires PHP 5.5.0 or newer.
