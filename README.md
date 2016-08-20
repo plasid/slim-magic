@@ -43,6 +43,23 @@ This will install SlimMagic and all required dependencies. SlimMagic requires PH
         
 ```
 
+## Directory structure
+In order to keep things clean we can use folders and service bootstrapper classes - [See code example](https://github.com/atlantic8-web/slim-magic-example-simple) 
+
+```bash
+MyNewApp
+    -app
+    -config
+        -slim.php
+    -service
+        -Dependency
+        -Middleware
+    -view
+    -model
+-.htaccess
+-index.php
+```
+ 
 ## Usage
 
 Create a Slim config.php and add SlimMagic route setup and configuration - [See code example](https://github.com/atlantic8-web/slim-magic-example-simple)
