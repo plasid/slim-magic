@@ -12,6 +12,37 @@ $ composer require atlantic8-web/slim-magic "^1.0"
 
 This will install SlimMagic and all required dependencies. SlimMagic requires PHP 5.5.0 or newer.
 
+## Configuration
+
+```bash
+'slim_magic_settings' => [
+        'routes' => [
+            //Home
+            '/' => [
+                'methods' => ['GET'], //Can be an array of methods, or ommit for default GET
+                'classmap' => 'app\Home:index', //String resolver app
+                'middleware' => [], //Middleware to load for this app
+                'arguments' => [],//Arguments to pass to this app
+                'name' => 'home' //App name, also used to generate URL's $slim->setName(...)
+            ],
+            '/admin/dashboard' => [
+                'methods' => ['GET'],
+                'classmap' => 'app\Admin:dashboard',
+                'middleware' => ['AuthValidation', 'GrapPreload'],
+                'arguments' => ['isAdmin'],
+                'name' => 'admin_dashboard'
+            ]
+        ],
+        //This will be applied to all routes/apps
+        'all' => [
+            'middleware' => ['Test', 'Session'],//See Slim docs for importance of order
+            'middleware_order' => 1, //integer 0=add before all, 1=add after all       
+            'service' => ['SessionHelper', 'Twig', 'notFoundHandler'] //Service dependencies
+        ]
+    ]
+        
+```
+
 ## Usage
 
 Create a Slim config.php and add SlimMagic route setup and configuration - [See code example](https://github.com/atlantic8-web/slim-magic-example-simple)
