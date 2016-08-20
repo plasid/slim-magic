@@ -40,7 +40,7 @@ class Mapper
                 !empty($spec['arguments']) ? $ins->setArguments($spec['arguments']) : null;
 
                 foreach ($spec['middleware'] as $m) {
-                    $ins->add(call_user_func(['\service\Middleware\\' . $m, 'get'], $slimContainer));
+                    $ins->add('\service\Middleware\\'.$m.':set');
                 }
             }
         } catch (\Exception $e) {
