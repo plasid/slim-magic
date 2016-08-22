@@ -18,6 +18,10 @@ class Mapper
      * @var type \SlimMagic\ServiceContainer
      */
     protected $smc;
+    /**
+     *
+     * @var array
+     */
     protected $middlewareLoaded;
 
     public function __construct(\SlimMagic\ServiceContainer $container)
