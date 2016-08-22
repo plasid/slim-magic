@@ -60,15 +60,6 @@ class ServiceContainer
             $spec['methods'] = empty($spec['methods']) ? ['GET'] : array_map('strtoupper', (array) $spec['methods']);
             $spec = array_merge($defaultSpec, $spec);
 
-            $last = $confAll['middleware'];
-            $first = $spec['middleware'];
-
-            if (!$confAll['middleware_order']) { //if 0
-                $first = $confAll['middleware'];
-                $last = $spec['middleware'];
-            }
-            $spec['middleware'] = !empty($confAll['middleware']) ? array_unique(array_merge($first, $last)) : $spec['middleware'];
-
             $this->config['routes'][$route] = $spec;
         }
     }
