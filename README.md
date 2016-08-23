@@ -16,6 +16,7 @@ This will install SlimMagic and all required dependencies. SlimMagic requires PH
 
 ```bash
 'slim_magic_settings' => [
+        'debug'=>false,
         'routes' => [
             //Home
             '/' => [
