@@ -35,8 +35,7 @@ This will install SlimMagic and all required dependencies. SlimMagic requires PH
         ],
         //This will be applied to all routes/apps
         'all' => [
-            'middleware' => ['Test', 'Session'],//See Slim docs for importance of order
-            'middleware_order' => 1, //integer 0=add before all, 1=add after all       
+            'middleware' => ['Test', 'Session'],//See Slim docs for importance of order               
             'service' => ['SessionHelper', 'Twig', 'notFoundHandler'] //Service dependencies
         ]
     ]
