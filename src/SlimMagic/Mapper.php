@@ -18,11 +18,13 @@ class Mapper
      * @var type \SlimMagic\ServiceContainer
      */
     protected $smc;
+
     /**
      *
      * @var array
      */
     protected $middlewareLoaded;
+    protected $serviceLoaded;
 
     public function __construct(\SlimMagic\ServiceContainer $container)
     {
@@ -36,44 +38,41 @@ class Mapper
 
         try {
 
-            $slimContainer = $this->smc->getSlim()->getContainer();
-
-            foreach ($this->smc->getConfig()['all']['service'] as $c) {
-                if ($this->smc->getConfig()['debug']) {
-                    echo 'Add service: \service\Dependency\\' . $c . ':set' . "\n";
-                }
-                call_user_func(['\service\Dependency\\' . $c, 'set'], $slimContainer);
-            }
-
-            $this->setAllMiddleware(0);
-
             foreach ($this->smc->getConfig()['routes'] as $route => $spec) {
 
                 $ins = $this->smc->getSlim()->map($spec['methods'], (string) $route, (string) $spec['classmap']);
                 !empty($spec['name']) ? $ins->setName($spec['name']) : null;
                 !empty($spec['arguments']) ? $ins->setArguments($spec['arguments']) : null;
 
-                if ($this->smc->getConfig()['debug']) {
-                    echo 'Add route: ' . (string) $route . "\n";
-                }
+                $this->debug('Add route: ' . (string) $route);
 
                 foreach ($spec['middleware'] as $m) {
                     $ins->add($this->getMiddleware($m));
                 }
             }
 
-            $this->setAllMiddleware(1);
+            $this->setAllMiddleware();
+            $this->setAllService();
+            
         } catch (\Exception $e) {
             throw $e;
         }
     }
 
-    private function setAllMiddleware($o)
+    private function setAllService()
     {
-        if ($this->smc->getConfig()['all']['middleware_order'] != $o) {
-            return false;
-        }
+        foreach ($this->smc->getConfig()['all']['service'] as $c) {
 
+            $this->debug('Add service: \service\Dependency\\' . $c . ':set');
+
+            $ss = '\service\Dependency\\' . $c;
+            $so = new $ss();
+            $so->set($this->smc->getSlimContainer());
+        }
+    }
+
+    private function setAllMiddleware()
+    {
         foreach ($this->smc->getConfig()['all']['middleware'] as $c) {
             $this->smc->getSlim()->add($this->getMiddleware($c));
         }
@@ -81,15 +80,15 @@ class Mapper
 
     private function getMiddleware($m)
     {
-        if (!isset($this->middlewareLoaded[$m])) {
-            $mp = '\service\Middleware\\' . $m;
-            $this->middlewareLoaded[$m] = call_user_func([$mp, 'get'], $this->smc->getSlim()->getContainer());
-            if ($this->smc->getConfig()['debug']) {
-                echo 'Add middleware: ' . $mp . ':get' . "\n";
-            }
-        }
+        $this->debug('Add middleware: ' . $m);
+        return '\service\Middleware\\' . $m;
+    }
 
-        return $this->middlewareLoaded[$m];
+    private function debug($msg)
+    {
+        if ($this->smc->getConfig()['debug']) {
+            echo $msg . "\n";
+        }
     }
 
 }

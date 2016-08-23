@@ -16,10 +16,10 @@ class ServiceContainer
     protected $slim;
     protected $config;
 
-    final public function __construct(\Slim\App $slim)
+    final public function __construct(\Slim\App $slim, $config)
     {
         $this->slim = $slim;
-        $this->config = $slim->getContainer()->slim_magic_settings;
+        $this->config = $config;
         $this->configNormalize();
     }
 
@@ -28,7 +28,7 @@ class ServiceContainer
         return $this->config;
     }
 
-    final public function getContainer()
+    final public function getSlimContainer()
     {
         return $this->slim->getContainer();
     }
