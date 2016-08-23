@@ -85,3 +85,5 @@ See code example, configuration and architecture
 ## License
 
 The SlimMagic is licensed under the MIT license. See [License File](LICENSE.md) for more information.
+
+
