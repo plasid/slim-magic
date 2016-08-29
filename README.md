@@ -33,8 +33,8 @@ This will install SlimMagic and all required dependencies. SlimMagic requires PH
                 'arguments' => ['isAdmin'],
                 'name' => 'admin_dashboard'
             ],
-            //Dynamic route example, 'appname' will be passed to your app as the requested URI, 
-            //which you can use to load the desired app
+            //Dynamic route example, 'appname' will be passed to your app in the args, 
+            //which you can use to load your desired app
             '/{appname:[A-Za-z\-]+}' => [
                 'methods' => ['GET'],
                 'classmap' => 'app\Dynamic:route',
