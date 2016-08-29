@@ -1,5 +1,5 @@
 # slim-magic
-A bootstrapper/classmapper/loader for Slim Framework 3x. Keeping your Slim bootstrapping clean no matter how many routes, dependencies and middleware you have, allowing you to build really large applications in a structured manner. 
+A bootstrapper/classmapper/dynamic router for Slim Framework 3x. Keeping your Slim bootstrapping clean no matter how many routes, dependencies and middleware you have, allowing you to build really large applications in a structured manner. 
 
 ## Installation
 
@@ -32,6 +32,15 @@ This will install SlimMagic and all required dependencies. SlimMagic requires PH
                 'middleware' => ['AuthValidation', 'GrapPreload'],
                 'arguments' => ['isAdmin'],
                 'name' => 'admin_dashboard'
+            ],
+            //Dynamic route example, 'appname' will be passed to your app as the requested URI, 
+            //which you can use to load the desired app
+            '/{appname:[A-Za-z\-]+}' => [
+                'methods' => ['GET'],
+                'classmap' => 'app\Dynamic:route',
+                'middleware' => [],
+                'arguments' => [],
+                'name' => ''
             ]
         ],
         //This will be applied to all routes/apps
