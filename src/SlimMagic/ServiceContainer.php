@@ -45,7 +45,8 @@ class ServiceContainer
             'classmap' => 'routeNotDefined',
             'middleware' => [],
             'arguments' => [],
-            'name' => ''
+            'name' => '',
+            'isDynamic' => false
         ];
         $defaultAll = [
             'middleware' => [],

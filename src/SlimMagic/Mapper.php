@@ -41,6 +41,17 @@ class Mapper
             foreach ($this->smc->getConfig()['routes'] as $route => $spec) {
 
                 $ins = $this->smc->getSlim()->map($spec['methods'], (string) $route, (string) $spec['classmap']);
+
+                if (PHP_SAPI === 'cli') {
+                    array_shift($argv); // Discard the filename
+                    $pathinfo = array_shift($argv);
+                    if (empty($pathinfo)) {
+                        $pathinfo = '--help';
+                    }
+
+                    $ins->environment = \Slim\Environment::mock([ 'PATH_INFO' => $pathinfo]);
+                }
+                
                 !empty($spec['name']) ? $ins->setName($spec['name']) : null;
                 !empty($spec['arguments']) ? $ins->setArguments($spec['arguments']) : null;
 
@@ -53,7 +64,6 @@ class Mapper
 
             $this->setAllMiddleware();
             $this->setAllService();
-            
         } catch (\Exception $e) {
             throw $e;
         }
