@@ -27,7 +27,7 @@ This will install SlimMagic and all required dependencies. SlimMagic requires PH
                 'name' => 'home' //App name, also used to generate URL's $slim->setName(...)
             ],
             '/admin/dashboard' => [
-                'methods' => ['GET'],
+                'methods' => ['GET','POST'],
                 'classmap' => 'app\Admin:dashboard',
                 'middleware' => ['AuthValidation', 'GrapPreload'],
                 'arguments' => ['isAdmin'],
