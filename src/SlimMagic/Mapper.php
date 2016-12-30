@@ -52,8 +52,9 @@ class Mapper
                 }
             }
 
+             $this->setAllService();
             $this->setAllMiddleware();
-            $this->setAllService();
+           
             
         } catch (\Exception $e) {
             throw $e;
