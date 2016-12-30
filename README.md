@@ -79,7 +79,7 @@ new \SlimMagic\Mapper($service);
 $service->getSlim()->run();
 ```
 
-See code example, configuration and architecture
+See code example, configuration and architecture (CLI is no longer supported, instead handle CLI via your bootstrap)
 [Example](https://github.com/atlantic8-web/slim-magic-example-simple)
 
 ## License
