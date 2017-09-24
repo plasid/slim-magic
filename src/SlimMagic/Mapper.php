@@ -56,7 +56,7 @@ class Mapper
             $this->setAllMiddleware();
            
             
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             throw $e;
         }
     }
